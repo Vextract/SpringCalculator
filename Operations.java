@@ -1,6 +1,8 @@
+
 import java.io.IOException;
 
 public class Operations {
+
 
     public static void main(String[] args) throws IOException {
         Model model = new Model();
@@ -14,5 +16,6 @@ public class Operations {
         controller.setTurnedOn(true);
 
         controller.processIncomingInformation();
+
     }
 }

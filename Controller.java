@@ -1,8 +1,16 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+
+
+import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Properties;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+
 
 public class Controller {
+
+    private static final Logger logger = Logger.getLogger(Controller.class.getName());
 
     private Model model;
     private View view;
@@ -41,6 +49,10 @@ public class Controller {
     }
 
     public void processIncomingInformation() throws IOException {
+        FileHandler handler = new FileHandler("log.log", true);
+
+        logger.addHandler(handler);
+
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
         while (turnedOn) {
@@ -90,6 +102,7 @@ public class Controller {
 
             // Выводим результат для пользователя
             view.showResult();
+            logger.info("Произведена операция: " + number1 + " " + operation + " " + number2 + " = " + result);
         }
     }
 }
