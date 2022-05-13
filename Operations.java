@@ -1,18 +1,18 @@
 
-import java.io.IOException;
+import java.util.logging.Logger;
 
 public class Operations {
 
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         Model model = new Model();
         View view = new View();
-        AbstractLogger logger = new MyLogger();
+        AbstractLogger logger = new MyLogger(Logger.getLogger(ControllerImpl.class.getName()));
 
-        Controller controller = new Controller(model, view, logger);
+        ControllerImpl controller1 = new ControllerImpl(model, view, logger);
+        ControllerImpl2 controller2 = new ControllerImpl2(model, view, logger);
 
-        controller.processIncomingInformation(152.0d,10.0d,"*");
+        Listener listener = new Listener(new Controller[]{controller1, controller2});
 
-        logger.getLog().printLogEntries();
     }
 }

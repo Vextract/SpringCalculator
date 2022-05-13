@@ -1,21 +1,18 @@
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MyLogger implements AbstractLogger {
-    private FakeLog log;
     private SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd - HH:mm:ss");
+    private Logger logger;
 
-    public MyLogger() {
-        this.log = new FakeLog();
+    public MyLogger(Logger logger) {
+        this.logger = logger;
     }
 
-    public FakeLog getLog() {
-        return log;
-    }
 
     @Override
-    public void log(double number1, double number2, String operation, double result) {
-        log.getLogEntries().add(format.format(new Date()) +
-                "\nПроизведена операция: " + number1 + " " + operation + " " + number2 + " = " + result + "\n");
+    public void error(Exception e) {
+        logger.log(Level.SEVERE, e.getMessage());
     }
 }

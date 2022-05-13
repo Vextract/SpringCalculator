@@ -1,37 +1,23 @@
 public class Model {
 
-    private double result;
+    public double processNumbers(double firstNumber, double secondNumber, String sign) {
 
-    public double getResult() {
-        return result;
-    }
-
-    public int processNumbers(double firstNumber, double secondNumber, String sign) {
-        if (sign == null) {
-            System.out.println("Некорректно введеная операция");
-            return -1;
-        }
-        // Определяем операцию по переданному знаку, при отсутствии таковой возвращаем -1
+        // Определяем операцию по переданному знаку, при отсутствии таковой - исключение
         switch (sign) {
             case "+": {
-                result = add(firstNumber, secondNumber);
-                return 1;
+                return add(firstNumber, secondNumber);
             }
             case "-": {
-                result = subtract(firstNumber, secondNumber);
-                return 1;
+                return subtract(firstNumber, secondNumber);
             }
             case "*": {
-                result = multiply(firstNumber, secondNumber);
-                return 1;
+                return multiply(firstNumber, secondNumber);
             }
             case "/": {
-                result = divide(firstNumber, secondNumber);
-                return 1;
+                return divide(firstNumber, secondNumber);
             }
             default:
-                System.out.println("Такая операция не поддерживается");
-                return -1;
+                throw new UnsupportedOperationException();
         }
     }
 
