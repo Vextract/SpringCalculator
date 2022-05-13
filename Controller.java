@@ -1,68 +1,37 @@
 
-
 import java.io.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Properties;
-import java.util.logging.FileHandler;
-import java.util.logging.Logger;
-
 
 public class Controller {
 
-    private static final Logger logger = Logger.getLogger(Controller.class.getName());
-
     private Model model;
     private View view;
-    private double result;
-    private boolean turnedOn;
-    private double number1;
-    private double number2;
-    private String operation;
+    private final AbstractLogger logger;
 
-    public void setModel(Model model) {
+    public Controller(Model model, View view, AbstractLogger logger) {
         this.model = model;
-    }
-
-    public void setView(View view) {
         this.view = view;
+        this.logger = logger;
     }
 
-    public double getResult() {
-        return result;
-    }
+    public void processIncomingInformation(double number1, double number2, String operation) {
 
-    public double getNumber1() {
-        return number1;
-    }
+        int successfulOrNot = model.processNumbers(number1, number2, operation);
+        if (successfulOrNot == -1) {
+            return;
+        }
+        view.showResult(number1,number2, operation, model.getResult());
+        logger.log(number1,number2, operation, model.getResult());
 
-    public double getNumber2() {
-        return number2;
-    }
+        /*BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-    public String getOperation() {
-        return operation;
-    }
-
-    public void setTurnedOn(boolean turnedOn) {
-        this.turnedOn = turnedOn;
-    }
-
-    public void processIncomingInformation() throws IOException {
-        FileHandler handler = new FileHandler("log.log", true);
-
-        logger.addHandler(handler);
-
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
-        while (turnedOn) {
+        while (true) {
             // Выводим первый запрос для пользователя и условия выхода
             view.showInterface();
 
             String str = reader.readLine();
             if (str.equalsIgnoreCase("end")) {
+
                 // При вводе слова "end" выключаем калькулятор
-                turnedOn = false;
                 reader.close();
                 continue;
             }
@@ -83,12 +52,9 @@ public class Controller {
                 // Запрашиваем у пользователя тип операции, которую надо произвести
                 view.operationTypeRequest();
 
-                operation = reader.readLine();
 
                 // Вызываем у модели метод вычисления, возвращает 1 в случае успешной операции
                 int successfulOrNot = model.processNumbers(number1, number2, operation);
-
-                result = model.getResult();
 
                 if (successfulOrNot == 1) {
                     break;
@@ -99,10 +65,8 @@ public class Controller {
                 }
             }
 
-
             // Выводим результат для пользователя
-            view.showResult();
-            logger.info("Произведена операция: " + number1 + " " + operation + " " + number2 + " = " + result);
-        }
+
+        }*/
     }
 }

@@ -7,15 +7,12 @@ public class Operations {
     public static void main(String[] args) throws IOException {
         Model model = new Model();
         View view = new View();
-        Controller controller = new Controller();
+        AbstractLogger logger = new MyLogger();
 
-        view.setController(controller);
+        Controller controller = new Controller(model, view, logger);
 
-        controller.setModel(model);
-        controller.setView(view);
-        controller.setTurnedOn(true);
+        controller.processIncomingInformation(152.0d,10.0d,"*");
 
-        controller.processIncomingInformation();
-
+        logger.getLog().printLogEntries();
     }
 }

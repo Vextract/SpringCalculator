@@ -7,7 +7,10 @@ public class Model {
     }
 
     public int processNumbers(double firstNumber, double secondNumber, String sign) {
-
+        if (sign == null) {
+            System.out.println("Некорректно введеная операция");
+            return -1;
+        }
         // Определяем операцию по переданному знаку, при отсутствии таковой возвращаем -1
         switch (sign) {
             case "+": {
@@ -27,6 +30,7 @@ public class Model {
                 return 1;
             }
             default:
+                System.out.println("Такая операция не поддерживается");
                 return -1;
         }
     }

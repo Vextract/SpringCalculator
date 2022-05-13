@@ -1,17 +1,5 @@
-import java.io.IOException;
 
 public class View {
-
-    private Controller controller;
-    private double result;
-
-    public void setController(Controller controller) {
-        this.controller = controller;
-    }
-
-    public double getResult() {
-        return controller.getResult();
-    }
 
     public void writeMessage(String str, Double result) {
         if (result == null) {
@@ -39,12 +27,11 @@ public class View {
                 "\t\"деление\"   - Введите \"/\"\n", null);
     }
 
-    public void showResult() {
-        result = getResult();
+    public void showResult(double number1, double number2, String operation, double result) {
         writeMessage("Ответ: " +
-                controller.getNumber1() + " " +
-                controller.getOperation() + " " +
-                controller.getNumber2() +
+                number1 + " " +
+                operation + " " +
+                number2 +
                 " = %.3f\n\n", result);
     }
 
