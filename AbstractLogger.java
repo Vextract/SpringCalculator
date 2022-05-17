@@ -1,5 +1,8 @@
 public interface AbstractLogger {
 
-    void error(Exception e);
+    void error(LogEntry logEntry);
 
+    void log(double answer);
+
+    String getLoggerName();
 }

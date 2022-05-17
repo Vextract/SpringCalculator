@@ -1,4 +1,4 @@
-import java.lang.annotation.Repeatable;
+import java.sql.Date;
 
 public class ControllerImpl implements Controller {
 
@@ -25,13 +25,13 @@ public class ControllerImpl implements Controller {
             try {
                 return new Response(e);
             } finally {
-                logger.error(e);
+                logger.error(new LogEntry(logger.getLoggerName(), "Error", e));
             }
         } catch (ArrayIndexOutOfBoundsException e) {
             try {
                 return new Response(new NotEnoughArgumentsException());
             } finally {
-                logger.error(e);
+                logger.error(new LogEntry(logger.getLoggerName(), "Error", new NotEnoughArgumentsException()));
             }
         }
         Response response;
@@ -42,10 +42,14 @@ public class ControllerImpl implements Controller {
                 response = new Response(new UnsupportedOperationExceptionCustom(args[2]));
                 return response;
             } finally {
-                logger.error(e);
+                logger.error(new LogEntry(logger.getLoggerName(), "Error", new UnsupportedOperationExceptionCustom(args[2])));
             }
         }
-        return response;
+        try {
+            return response;
+        } finally {
+            logger.log(response.getResult());
+        }
     }
 
     public void emptyMethod1(int one) {

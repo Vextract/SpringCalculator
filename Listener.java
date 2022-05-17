@@ -1,3 +1,5 @@
+import org.controlsfx.control.tableview2.filter.filtereditor.SouthFilter;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,9 +11,11 @@ public class Listener {
 
     private Map<Controller, List<Method>> methods = new HashMap<>();
     private Controller[] controllers;
+    private AbstractLogger logger;
 
-    public Listener(Controller[] controllers) {
+    public Listener(Controller[] controllers, AbstractLogger logger) {
         this.controllers = controllers;
+        this.logger = logger;
         for (Controller controller: controllers) {
             methods.put(controller, List.of(controller.getClass().getDeclaredMethods()));
         }
@@ -31,31 +35,37 @@ public class Listener {
                 if (str.equalsIgnoreCase("end")) {
                     break;
                 }
+
                 String[] inputData = str.split(" ", 2);
                 String[] classAndMethod = inputData[0].split("/");
 
-                for (Controller controller: methods.keySet()) {
-                    if (controller.getClass().getSimpleName().equals(classAndMethod[0])) {
-                        for (Method method:methods.get(controller)) {
-                            if (method.getName().equals(classAndMethod[1])) {
-                                try {
-                                    method.setAccessible(true);
-                                    for (Object obj:controllers) {
-                                        if (obj.getClass().getSimpleName().equals(controller.getClass().getSimpleName())) {
+                try {
+                    for (Controller controller: methods.keySet()) {
+                        if (controller.getClass().getSimpleName().equals(classAndMethod[0])) {
+                            for (Method method:methods.get(controller)) {
+                                if (method.getName().equals(classAndMethod[1])) {
+                                    try {
+                                        method.setAccessible(true);
+                                        for (Object obj:controllers) {
+                                            if (obj.getClass().getSimpleName().equals(controller.getClass().getSimpleName())) {
 
-                                            String[] args = inputData[1].trim().split(" ");
+                                                String[] args = inputData[1].trim().split(" ");
 
-                                            Response response = (Response) method.invoke(obj, (Object) args);
-                                            handleResponse(response);
+                                                Response response = (Response) method.invoke(obj, (Object) args);
+                                                handleResponse(response);
+                                            }
                                         }
+                                    } catch (IllegalAccessException | InvocationTargetException e) {
+                                        e.printStackTrace();
                                     }
-                                } catch (IllegalAccessException | InvocationTargetException e) {
-                                    e.printStackTrace();
                                 }
                             }
                         }
                     }
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    logger.error(new LogEntry(logger.getLoggerName(), "Error", new NumberFormatException()));
                 }
+                System.out.println("Такого контроллера или метода не существует.");
             }
             reader.close();
         } catch (IOException e) {
