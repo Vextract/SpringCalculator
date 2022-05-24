@@ -1,4 +1,3 @@
-import java.sql.Date;
 
 public class ControllerImpl implements Controller {
 
@@ -35,8 +34,9 @@ public class ControllerImpl implements Controller {
             }
         }
         Response response;
+        String operationString = number1 + " " + operation + " " + number2;
         try {
-            response = new Response(model.processNumbers(number1, number2, operation));
+            response = new Response(operationString, model.processNumbers(number1, number2, operation));
         } catch (UnsupportedOperationException e) {
             try {
                 response = new Response(new UnsupportedOperationExceptionCustom(args[2]));
@@ -48,7 +48,7 @@ public class ControllerImpl implements Controller {
         try {
             return response;
         } finally {
-            logger.log(response.getResult());
+            logger.log(response);
         }
     }
 

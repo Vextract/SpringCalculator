@@ -12,8 +12,6 @@ public class MyLogger implements AbstractLogger {
         this.logger = logger;
     }
 
-
-
     public void error(Response response) {
         logger.log(Level.SEVERE, response.getException().getMessage());
     }
@@ -23,12 +21,17 @@ public class MyLogger implements AbstractLogger {
 
     }
 
-    public void log(double answer) {
-        logger.log(Level.INFO, "Получен ответ: " + answer);
+    public void log(Response response) {
+        logger.log(Level.INFO, "Получен ответ: " + response.getResult());
+    }
+
+    @Override
+    public void showLog() {
+
     }
 
     @Override
     public String getLoggerName() {
-        return null;
+        return "MyLogger";
     }
 }

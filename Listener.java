@@ -32,6 +32,10 @@ public class Listener {
                     info();
                     continue;
                 }
+                if (str.equalsIgnoreCase("log")) {
+                    logger.showLog();
+                    continue;
+                }
                 if (str.equalsIgnoreCase("end")) {
                     break;
                 }
@@ -65,7 +69,6 @@ public class Listener {
                 } catch (ArrayIndexOutOfBoundsException e) {
                     logger.error(new LogEntry(logger.getLoggerName(), "Error", new NumberFormatException()));
                 }
-                System.out.println("Такого контроллера или метода не существует.");
             }
             reader.close();
         } catch (IOException e) {

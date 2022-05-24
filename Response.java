@@ -4,7 +4,10 @@ public class Response {
 
     private Exception exception;
 
-    public Response(double result) {
+    private String operation;
+
+    public Response(String operation, double result) {
+        this.operation = operation;
         this.result = result;
     }
 
@@ -14,6 +17,10 @@ public class Response {
 
     public double getResult() {
         return result;
+    }
+
+    public String getOperation() {
+        return operation;
     }
 
     public Exception getException() {
