@@ -16,6 +16,7 @@ public class ControllerImpl implements Controller {
         double number1;
         double number2;
         String operation;
+
         try {
             number1 = Double.parseDouble(args[0]);
             number2 = Double.parseDouble(args[1]);
@@ -24,25 +25,28 @@ public class ControllerImpl implements Controller {
             try {
                 return new Response(e);
             } finally {
-                logger.error(new LogEntry(logger.getLoggerName(), "Error", e));
+                logger.error(new LogEntry(logger, "Error", e));
             }
         } catch (ArrayIndexOutOfBoundsException e) {
             try {
                 return new Response(new NotEnoughArgumentsException());
             } finally {
-                logger.error(new LogEntry(logger.getLoggerName(), "Error", new NotEnoughArgumentsException()));
+                logger.error(new LogEntry(logger, "Error", new NotEnoughArgumentsException()));
             }
         }
+
         Response response;
-        String operationString = number1 + " " + operation + " " + number2;
+
         try {
-            response = new Response(operationString, model.processNumbers(number1, number2, operation));
+            final String operationString = number1 + " " + operation + " " + number2;
+            final double answer = model.processNumbers(number1, number2, operation);
+            response = new Response(operationString, answer);
         } catch (UnsupportedOperationException e) {
             try {
                 response = new Response(new UnsupportedOperationExceptionCustom(args[2]));
                 return response;
             } finally {
-                logger.error(new LogEntry(logger.getLoggerName(), "Error", new UnsupportedOperationExceptionCustom(args[2])));
+                logger.error(new LogEntry(logger, "Error", new UnsupportedOperationExceptionCustom(args[2])));
             }
         }
         try {

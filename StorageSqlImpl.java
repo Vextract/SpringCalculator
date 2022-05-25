@@ -1,8 +1,6 @@
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
-public class RepositoryMySqlImpl implements Repository {
+public class StorageSqlImpl implements Storage {
 
     private String url;
     private String username;
@@ -10,7 +8,7 @@ public class RepositoryMySqlImpl implements Repository {
 
     private Connection connection;
 
-    public RepositoryMySqlImpl(String databaseName) {
+    public StorageSqlImpl(String databaseName) {
         if (databaseName.equalsIgnoreCase("postgresql")) {
             url = Connections.URL_FOR_POSTGRESQL;
             username = Connections.USERNAME_FOR_POSTGRESQL;
@@ -45,26 +43,26 @@ public class RepositoryMySqlImpl implements Repository {
         }
     }
 
+    @Override
+    public void error(LogEntry logEntry) {
+
+        try {
+            PreparedStatement preparedStatement =
+                    connection.prepareStatement("INSERT INTO logs VALUES(?,?,?,?)");
+
+            preparedStatement.setDate(1, new Date(logEntry.getCreated().getTime()));
+            preparedStatement.setString(2, logEntry.getLoggerName());
+            preparedStatement.setString(3, logEntry.getLevel());
+            preparedStatement.setString(4, logEntry.getMessage());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 
     @Override
-    public List<LogEntry> getErrorsLog() {
-        try {
-            String query = "SELECT * FROM logs";
-            Statement st = connection.createStatement();
-            ResultSet rs = st.executeQuery(query);
+    public void log(Response response) {
 
-            while (rs.next()) {
-                String date = rs.getString("Date");
-                String time = rs.getString("Time");
-                String loggerName = rs.getString("LoggerName");
-                String level = rs.getString("Level");
-                String message = rs.getString("Message");
-
-                System.out.format("%s, %s, %s, %s, %s\n", date, time, loggerName, level, message);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return new ArrayList<>();
     }
 }

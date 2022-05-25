@@ -32,10 +32,7 @@ public class Listener {
                     info();
                     continue;
                 }
-                if (str.equalsIgnoreCase("log")) {
-                    logger.showLog();
-                    continue;
-                }
+
                 if (str.equalsIgnoreCase("end")) {
                     break;
                 }
@@ -67,7 +64,7 @@ public class Listener {
                         }
                     }
                 } catch (ArrayIndexOutOfBoundsException e) {
-                    logger.error(new LogEntry(logger.getLoggerName(), "Error", new NumberFormatException()));
+                    logger.error(new LogEntry(logger, "Error", new NumberFormatException()));
                 }
             }
             reader.close();
@@ -83,7 +80,7 @@ public class Listener {
             for (Method method: entry.getValue()) {
                 System.out.println("\t" + method.getName() + Arrays.toString(method.getParameters()));
             }
-            System.out.println("");
+            System.out.println();
         }
     }
 

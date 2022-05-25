@@ -1,8 +1,4 @@
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
+import java.util.Date;
 
 public class LogEntry {
 
@@ -10,25 +6,30 @@ public class LogEntry {
     private String loggerName;
     private String level;
     private String message;
+    private Exception exception;
 
-    public LogEntry(String loggerName, String level, Exception e) {
-        java.util.Date date = new java.util.Date();
-        this.created = new java.sql.Date(date.getTime());
-        this.loggerName = loggerName;
-        this.level = level;
-        if (e instanceof NotEnoughArgumentsException) {
-            this.message = "Недостаточно аргументов";
-        } else if (e instanceof NumberFormatException) {
-            this.message = "Неправильный формат аргументов";
-        } else if (e instanceof UnsupportedOperationExceptionCustom) {
-            this.message = "Операция " +
-                    ((UnsupportedOperationExceptionCustom) e).getOperation() +
-                    " не поддерживается";
-        } else {
-            this.message = "Неизвестная ошибка";
+    public LogEntry(AbstractLogger logger, String level, Exception e) {
+        this.created = new Date();
+        if (logger != null) {
+            this.loggerName = logger.getClass().getSimpleName();
         }
-
-
+        if (level != null) {
+            this.level = level;
+        }
+        if (e != null) {
+            if (e instanceof NotEnoughArgumentsException) {
+                this.message = "Недостаточно аргументов";
+            } else if (e instanceof NumberFormatException) {
+                this.message = "Неправильный формат аргументов";
+            } else if (e instanceof UnsupportedOperationExceptionCustom) {
+                this.message = "Операция " +
+                        ((UnsupportedOperationExceptionCustom) e).getOperation() +
+                        " не поддерживается";
+            } else {
+                this.message = "Неизвестная ошибка";
+            }
+        }
+        this.exception = e;
     }
 
     public Date getCreated() {
@@ -61,5 +62,13 @@ public class LogEntry {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public Exception getException() {
+        return exception;
+    }
+
+    public void setException(Exception exception) {
+        this.exception = exception;
     }
 }

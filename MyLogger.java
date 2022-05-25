@@ -24,14 +24,4 @@ public class MyLogger implements AbstractLogger {
     public void log(Response response) {
         logger.log(Level.INFO, "Получен ответ: " + response.getResult());
     }
-
-    @Override
-    public void showLog() {
-
-    }
-
-    @Override
-    public String getLoggerName() {
-        return "MyLogger";
-    }
 }

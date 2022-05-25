@@ -4,13 +4,9 @@ import java.util.*;
 
 public class LoggerToDB implements AbstractLogger {
 
-    private Repository repository;
     private Storage storage;
-    private String loggerName;
 
-    public LoggerToDB(Repository repository, Storage storage) {
-        this.loggerName = "LoggerToDB";
-        this.repository = repository;
+    public LoggerToDB(Storage storage) {
         this.storage = storage;
     }
 
@@ -26,16 +22,5 @@ public class LoggerToDB implements AbstractLogger {
         if (storage != null) {
             storage.log(response);
         } else System.out.println("Storage не проиницилизирован");
-    }
-
-    public void showLog() {
-        if (repository != null) {
-            repository.showLog();
-        } else System.out.println("Repository не проиницилизирован");
-    }
-
-    @Override
-    public String getLoggerName() {
-        return "LoggerToMongo";
     }
 }

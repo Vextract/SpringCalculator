@@ -1,4 +1,6 @@
+import java.util.List;
+
 public interface Repository {
 
-    void showLog();
+    List<LogEntry> getErrorsLog();
 }

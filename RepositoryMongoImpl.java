@@ -1,29 +1,34 @@
 import com.mongodb.*;
 import org.bson.Document;
 
+import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RepositoryMongoImpl implements Repository {
 
-    private MongoClient mongoClient;
     private DB database;
-    private DBCollection collection;
 
-    private SimpleDateFormat date = new SimpleDateFormat("yyyy.MM.dd");
-
-
-    public RepositoryMongoImpl() {
-        this.mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
-        this.database = mongoClient.getDB("DataLog");
-        this.collection = database.getCollection("Errors");
+    public RepositoryMongoImpl(DB database) {
+        this.database = database;
     }
 
     @Override
-    public void showLog() {
-        try (DBCursor results = collection.find(new BasicDBObject("date", "24.05.2022"))) {
+    public List<LogEntry> getErrorsLog() {
+        DBCollection collection = database.getCollection("Errors");
+        List<LogEntry> log = new ArrayList<>();
+        try (DBCursor results = collection.find()) {
             for (DBObject result: results) {
-                System.out.println(result);
+                LogEntry logEntry = new LogEntry(null, null, null);
+                logEntry.setCreated(new Date(((java.util.Date) result.get("date")).getTime()));
+                logEntry.setLoggerName("LoggerToDB");
+                logEntry.setLevel((String) result.get("level"));
+                logEntry.setMessage((String) result.get("message"));
+
+                log.add(logEntry);
             }
         }
+        return log;
     }
 }
