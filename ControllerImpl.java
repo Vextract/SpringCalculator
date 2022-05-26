@@ -25,13 +25,13 @@ public class ControllerImpl implements Controller {
             try {
                 return new Response(e);
             } finally {
-                logger.error(new LogEntry(logger, "Error", e));
+                logger.error(new LogEntry(e));
             }
         } catch (ArrayIndexOutOfBoundsException e) {
             try {
                 return new Response(new NotEnoughArgumentsException());
             } finally {
-                logger.error(new LogEntry(logger, "Error", new NotEnoughArgumentsException()));
+                logger.error(new LogEntry(new NotEnoughArgumentsException()));
             }
         }
 
@@ -46,7 +46,7 @@ public class ControllerImpl implements Controller {
                 response = new Response(new UnsupportedOperationExceptionCustom(args[2]));
                 return response;
             } finally {
-                logger.error(new LogEntry(logger, "Error", new UnsupportedOperationExceptionCustom(args[2])));
+                logger.error(new LogEntry(new UnsupportedOperationExceptionCustom(args[2])));
             }
         }
         try {

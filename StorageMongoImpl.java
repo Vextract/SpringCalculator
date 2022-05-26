@@ -1,9 +1,8 @@
 import com.mongodb.*;
 
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 
 public class StorageMongoImpl implements Storage {
 
@@ -14,10 +13,16 @@ public class StorageMongoImpl implements Storage {
     }
 
     public void error(LogEntry logEntry) {
+        StringWriter sw = new StringWriter();
+        logEntry.getException().printStackTrace(new PrintWriter(sw));
+        String cause = sw.toString();
         DBCollection collection = database.getCollection("Errors");
         DBObject error = new BasicDBObject("date", logEntry.getCreated())
+                .append("loggerName", logEntry.getLoggerName())
                 .append("level", logEntry.getLevel())
-                .append("message", logEntry.getMessage());
+                .append("message", logEntry.getMessage())
+                .append("cause", cause);
+
         collection.insert(error);
     }
 

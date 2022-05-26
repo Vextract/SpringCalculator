@@ -1,5 +1,3 @@
-import org.controlsfx.control.tableview2.filter.filtereditor.SouthFilter;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -33,6 +31,34 @@ public class Listener {
                     continue;
                 }
 
+                if (str.equalsIgnoreCase("log")) {
+                    System.out.println("Введите название репозитория");
+                    String str2 = reader.readLine();
+                    for (Controller controller: controllers) {
+                        if (controller instanceof ControllerImpl2) {
+                            if (str2.equalsIgnoreCase("postgresql")) {
+                                ((ControllerImpl2) controller)
+                                        .printOutLogs(
+                                                new RepositoryMySqlImpl(
+                                                        Connections.getSQLConnection("postgresql")));
+                            } else if (str2.equalsIgnoreCase("mysql")) {
+                                ((ControllerImpl2) controller)
+                                        .printOutLogs(
+                                                new RepositoryMySqlImpl(
+                                                        Connections.getSQLConnection("mysql")));
+                            } else if (str2.equalsIgnoreCase("mongo")) {
+                                ((ControllerImpl2) controller)
+                                        .printOutLogs(
+                                                new RepositoryMongoImpl(
+                                                        Connections.MONGO_DATABASE));
+                            } else {
+                                System.out.println("Такой репозиторий отсутствует");
+                            }
+                        }
+                    }
+                    continue;
+                }
+
                 if (str.equalsIgnoreCase("end")) {
                     break;
                 }
@@ -48,7 +74,8 @@ public class Listener {
                                     try {
                                         method.setAccessible(true);
                                         for (Object obj:controllers) {
-                                            if (obj.getClass().getSimpleName().equals(controller.getClass().getSimpleName())) {
+                                            if (obj.getClass().getSimpleName()
+                                                    .equals(controller.getClass().getSimpleName())) {
 
                                                 String[] args = inputData[1].trim().split(" ");
 
@@ -64,7 +91,7 @@ public class Listener {
                         }
                     }
                 } catch (ArrayIndexOutOfBoundsException e) {
-                    logger.error(new LogEntry(logger, "Error", new NumberFormatException()));
+                    logger.error(new LogEntry(new NumberFormatException()));
                 }
             }
             reader.close();

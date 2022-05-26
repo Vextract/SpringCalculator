@@ -14,21 +14,24 @@ public class RepositoryMongoImpl implements Repository {
         this.database = database;
     }
 
+
     @Override
-    public List<LogEntry> getErrorsLog() {
+    public List<Log> getErrorsLog() {
         DBCollection collection = database.getCollection("Errors");
-        List<LogEntry> log = new ArrayList<>();
+        List<Log> logs = new ArrayList<>();
         try (DBCursor results = collection.find()) {
             for (DBObject result: results) {
-                LogEntry logEntry = new LogEntry(null, null, null);
-                logEntry.setCreated(new Date(((java.util.Date) result.get("date")).getTime()));
-                logEntry.setLoggerName("LoggerToDB");
-                logEntry.setLevel((String) result.get("level"));
-                logEntry.setMessage((String) result.get("message"));
+                Log log = new Log(
+                        new Date(((java.util.Date) result.get("date")).getTime()),
+                        (String) result.get("loggerName"),
+                        (String) result.get("level"),
+                        (String) result.get("message"),
+                        (String) result.get("cause")
+                );
 
-                log.add(logEntry);
+                logs.add(log);
             }
         }
-        return log;
+        return logs;
     }
 }

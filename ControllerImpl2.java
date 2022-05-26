@@ -1,20 +1,11 @@
-public class ControllerImpl2 implements Controller{
+import java.util.List;
 
-    private Model model;
-    private View view;
-    private final AbstractLogger logger;
+public class ControllerImpl2 implements Controller {
 
-    public ControllerImpl2(Model model, View view, AbstractLogger logger) {
-        this.model = model;
-        this.view = view;
-        this.logger = logger;
-    }
-
-    public void emptyMethod1(int one) {
-
-    }
-
-    public void emptyMethod2(String[] array) {
-
+    public void printOutLogs(Repository repository) {
+        List<Log> list = repository.getErrorsLog();
+        for (Log log:list) {
+            System.out.println(log.toString());
+        }
     }
 }

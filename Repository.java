@@ -1,6 +1,7 @@
+import java.util.Date;
 import java.util.List;
 
 public interface Repository {
 
-    List<LogEntry> getErrorsLog();
+    List<Log> getErrorsLog();
 }

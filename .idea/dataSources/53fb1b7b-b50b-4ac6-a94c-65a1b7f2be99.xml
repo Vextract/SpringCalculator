@@ -1011,21 +1011,31 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <column id="288" parent="287" name="Date">
-      <DataType>datetime|0s</DataType>
+    <column id="288" parent="287" name="DATED">
+      <DataType>date|0s</DataType>
+      <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="289" parent="287" name="loggerName">
-      <DataType>text|0s</DataType>
+    <column id="289" parent="287" name="LOGGER">
+      <DataType>varchar(50)|0s</DataType>
+      <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="290" parent="287" name="level">
-      <DataType>text|0s</DataType>
+    <column id="290" parent="287" name="LEVEL">
+      <DataType>varchar(10)|0s</DataType>
+      <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="291" parent="287" name="message">
-      <DataType>text|0s</DataType>
+    <column id="291" parent="287" name="MESSAGE">
+      <DataType>varchar(200)|0s</DataType>
+      <NotNull>1</NotNull>
       <Position>4</Position>
+    </column>
+    <column id="292" parent="287" name="CAUSE">
+      <DataType>varchar(10000)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+      <CollationName>utf8_general_ci</CollationName>
     </column>
   </database-model>
 </dataSource>

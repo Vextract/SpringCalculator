@@ -1,23 +1,22 @@
-import com.mongodb.DB;
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
-import com.mysql.cj.log.Log;
-
-import java.util.List;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.text.ParseException;
 
 public class Operations {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         Model model = new Model();
         View view = new View();
+        Connection sqlConnection = Connections.getSQLConnection("mysql");
 
-        AbstractLogger logger = new LoggerToDB(new StorageSqlImpl("postgresql"));
+        AbstractLogger logger = new LoggerToDB(new StorageSqlImpl(sqlConnection));
 
         ControllerImpl controller1 = new ControllerImpl(model, view, logger);
-        ControllerImpl2 controller2 = new ControllerImpl2(model, view, logger);
+        ControllerImpl2 controller2 = new ControllerImpl2();
 
         Listener listener = new Listener(new Controller[]{controller1, controller2}, logger);
 
         // ControllerImpl/processIncomingInformation 5 5 *
+        sqlConnection.close();
     }
 }

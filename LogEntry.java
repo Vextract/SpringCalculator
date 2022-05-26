@@ -7,15 +7,10 @@ public class LogEntry {
     private String level;
     private String message;
     private Exception exception;
+    private String cause;
 
-    public LogEntry(AbstractLogger logger, String level, Exception e) {
+    public LogEntry(Exception e) {
         this.created = new Date();
-        if (logger != null) {
-            this.loggerName = logger.getClass().getSimpleName();
-        }
-        if (level != null) {
-            this.level = level;
-        }
         if (e != null) {
             if (e instanceof NotEnoughArgumentsException) {
                 this.message = "Недостаточно аргументов";
@@ -70,5 +65,13 @@ public class LogEntry {
 
     public void setException(Exception exception) {
         this.exception = exception;
+    }
+
+    public String getCause() {
+        return cause;
+    }
+
+    public void setCause(String cause) {
+        this.cause = cause;
     }
 }
