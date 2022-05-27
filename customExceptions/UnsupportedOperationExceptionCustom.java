@@ -1,3 +1,5 @@
+package customExceptions;
+
 public class UnsupportedOperationExceptionCustom extends Exception{
 
     private String operation;

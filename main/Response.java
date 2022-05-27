@@ -1,3 +1,5 @@
+package main;
+
 public class Response {
 
     private double result;

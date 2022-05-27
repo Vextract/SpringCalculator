@@ -1,6 +1,8 @@
-import java.sql.*;
-import java.io.*;
-import java.util.*;
+package loggers;
+
+import main.Response;
+import storage.Storage;
+
 import java.util.logging.Level;
 
 public class LoggerToDB implements AbstractLogger {
@@ -17,13 +19,13 @@ public class LoggerToDB implements AbstractLogger {
             logEntry.setLoggerName(this.getClass().getSimpleName());
             logEntry.setLevel(Level.WARNING.getName());
             storage.error(logEntry);
-        } else System.out.println("Storage не проиницилизирован");
+        } else System.out.println("storage.Storage не проиницилизирован");
     }
 
     @Override
     public void log(Response response) {
         if (storage != null) {
             storage.log(response);
-        } else System.out.println("Storage не проиницилизирован");
+        } else System.out.println("storage.Storage не проиницилизирован");
     }
 }

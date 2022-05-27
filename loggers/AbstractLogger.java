@@ -1,3 +1,7 @@
+package loggers;
+
+import main.Response;
+
 public interface AbstractLogger {
 
     void error(LogEntry logEntry);

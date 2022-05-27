@@ -1,7 +1,12 @@
+package main;
+
 import com.mongodb.DB;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -18,6 +23,9 @@ public class Connections {
 
     public static final DB MONGO_DATABASE = new MongoClient(new MongoClientURI("mongodb://localhost:27017"))
             .getDB("DataLog");
+
+    private static final String REQUEST_TO_BINANCE_PRICES = "https://api.binance.com/api/v3/ticker/price";
+    private static final String REQUEST_TO_BINANCE_EXCHANGE_INFO = "https://api.binance.com/api/v3/exchangeInfo";
 
     public static Connection getSQLConnection(String databaseName) {
         Connection connection = null;
@@ -55,5 +63,19 @@ public class Connections {
         }
 
         return connection;
+    }
+
+    public static HttpURLConnection getBinanceHttpURLConnection(String filter) {
+        try {
+            if (filter.equalsIgnoreCase("all")) {
+                URL url = new URL(REQUEST_TO_BINANCE_EXCHANGE_INFO);
+                return (HttpURLConnection) url.openConnection();
+            } else {
+                URL url = new URL(REQUEST_TO_BINANCE_PRICES + "?symbol=" + filter);
+                return (HttpURLConnection) url.openConnection();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

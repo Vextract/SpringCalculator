@@ -1,3 +1,5 @@
+package model;
+
 public class Model {
 
     public double processNumbers(double firstNumber, double secondNumber, String sign) {

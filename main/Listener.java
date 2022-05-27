@@ -1,3 +1,14 @@
+package main;
+
+import controller.Controller;
+import controller.ControllerImpl2;
+import customExceptions.NotEnoughArgumentsException;
+import customExceptions.UnsupportedOperationExceptionCustom;
+import loggers.AbstractLogger;
+import loggers.LogEntry;
+import repository.RepositoryMongoImpl;
+import repository.RepositoryMySqlImpl;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -81,6 +92,7 @@ public class Listener {
 
                                                 Response response = (Response) method.invoke(obj, (Object) args);
                                                 handleResponse(response);
+
                                             }
                                         }
                                     } catch (IllegalAccessException | InvocationTargetException e) {

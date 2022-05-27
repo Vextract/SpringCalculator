@@ -1,3 +1,5 @@
+package loggers;
+
 import java.util.Date;
 
 public class Log {
@@ -18,7 +20,7 @@ public class Log {
 
     @Override
     public String toString() {
-        return "Log{" +
+        return "loggers.Log{" +
                 "date=" + date +
                 ", capturedBy='" + capturedBy + '\'' +
                 ", level='" + level + '\'' +

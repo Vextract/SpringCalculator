@@ -1,3 +1,8 @@
+package controller;
+
+import loggers.Log;
+import repository.Repository;
+
 import java.util.List;
 
 public class ControllerImpl2 implements Controller {

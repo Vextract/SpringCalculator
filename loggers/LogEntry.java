@@ -1,3 +1,8 @@
+package loggers;
+
+import customExceptions.NotEnoughArgumentsException;
+import customExceptions.UnsupportedOperationExceptionCustom;
+
 import java.util.Date;
 
 public class LogEntry {
