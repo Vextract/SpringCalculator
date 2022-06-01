@@ -2,6 +2,8 @@ package root.main;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import root.binance.BinanceAdapter;
+import root.binance.CurrenciesRate;
 import root.controller.Controller;
 import root.controller.ControllerImpl2;
 import root.customExceptions.NotEnoughArgumentsException;
@@ -24,11 +26,13 @@ public class Listener {
     private Map<Controller, List<Method>> methods = new HashMap<>();
     private Controller[] controllers;
     private AbstractLogger logger;
+    private BinanceAdapter binanceAdapter;
 
     @Autowired
-    public Listener(Controller[] controllers, AbstractLogger logger) {
+    public Listener(Controller[] controllers, AbstractLogger logger, BinanceAdapter binanceAdapter) {
         this.controllers = controllers;
         this.logger = logger;
+        this.binanceAdapter = binanceAdapter;
         for (Controller controller: controllers) {
             methods.put(controller, List.of(controller.getClass().getDeclaredMethods()));
         }
@@ -44,6 +48,27 @@ public class Listener {
                 if (str.equalsIgnoreCase("info")) {
                     info();
                     continue;
+                }
+
+                if (str.equalsIgnoreCase("binance")) {
+                    System.out.println("С помощью команды \"rates\" вы можете увидеть доступные пары");
+                    System.out.println("Для получения определенной пары напишите \"conversion код_пары\"");
+                    String str2 = reader.readLine();
+                    String[] parts = str2.split(" ");
+                    if (parts[0].equalsIgnoreCase("rates")) {
+                        List<CurrenciesRate> list = binanceAdapter.getAllConversionPairs();
+
+                        System.out.println("Available options: ");
+
+                        for (CurrenciesRate one: list) {
+                            System.out.println(one.toString());
+                        }
+                        continue;
+                    } else if (parts[0].equalsIgnoreCase("conversion")) {
+                        CurrenciesRate obj = binanceAdapter.getRate(parts[1]);
+                        System.out.println(obj.toString());
+                        continue;
+                    }
                 }
 
                 if (str.equalsIgnoreCase("log")) {
@@ -117,7 +142,13 @@ public class Listener {
     }
 
     public void info() {
-        System.out.println("Список доступных методов:\n");
+        System.out.println("Список доступных команд и методов:\n");
+
+        System.out.println("\t\"info\" - для получения списка команд и методов");
+        System.out.println("\t\"log\" - для получения логов");
+        System.out.println("\t\"binance\" - для доступа к сервису Binance");
+        System.out.println("\t\"Название_контроллера/название_метода аргументы\" " +
+                "- для исполнения методов контроллеров\n");
         for (Map.Entry<Controller, List<Method>> entry: methods.entrySet()) {
             System.out.println("Методы " + entry.getKey().getClass().getSimpleName() + ":");
             for (Method method: entry.getValue()) {

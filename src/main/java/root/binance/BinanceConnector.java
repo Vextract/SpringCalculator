@@ -1,5 +1,6 @@
 package root.binance;
 
+import org.springframework.stereotype.Component;
 import root.main.Connections;
 
 
@@ -9,6 +10,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 
+@Component
 public class BinanceConnector implements Connector {
 
     public InputStreamReader getResponse(String filter) {
