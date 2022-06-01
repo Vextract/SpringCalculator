@@ -6,9 +6,9 @@
   <millis>1652363007666</millis>
   <nanos>741300</nanos>
   <sequence>0</sequence>
-  <logger>controller.Controller</logger>
+  <logger>root.controller.Controller</logger>
   <level>INFO</level>
-  <class>controller.Controller</class>
+  <class>root.controller.Controller</class>
   <method>processIncomingInformation</method>
   <thread>1</thread>
   <message>Произведена операция: 25.0 + 62.0 = 87.0</message>
@@ -22,9 +22,9 @@
   <millis>1652363227130</millis>
   <nanos>550700</nanos>
   <sequence>0</sequence>
-  <logger>controller.Controller</logger>
+  <logger>root.controller.Controller</logger>
   <level>INFO</level>
-  <class>controller.Controller</class>
+  <class>root.controller.Controller</class>
   <method>processIncomingInformation</method>
   <thread>1</thread>
   <message>Произведена операция: 25.0 + 62.0 = 87.0</message>
@@ -34,9 +34,9 @@
   <millis>1652363259314</millis>
   <nanos>901600</nanos>
   <sequence>1</sequence>
-  <logger>controller.Controller</logger>
+  <logger>root.controller.Controller</logger>
   <level>INFO</level>
-  <class>controller.Controller</class>
+  <class>root.controller.Controller</class>
   <method>processIncomingInformation</method>
   <thread>1</thread>
   <message>Произведена операция: 100.0 * 250.0 = 25000.0</message>
@@ -46,9 +46,9 @@
   <millis>1652363269891</millis>
   <nanos>984500</nanos>
   <sequence>2</sequence>
-  <logger>controller.Controller</logger>
+  <logger>root.controller.Controller</logger>
   <level>INFO</level>
-  <class>controller.Controller</class>
+  <class>root.controller.Controller</class>
   <method>processIncomingInformation</method>
   <thread>1</thread>
   <message>Произведена операция: 3.51611721E8 * 1.5151851985E10 = 5.3275687527831163E18</message>
