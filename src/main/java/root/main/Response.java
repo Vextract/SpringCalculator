@@ -1,5 +1,7 @@
 package root.main;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Response {
 
     private double result;
@@ -8,7 +10,8 @@ public class Response {
 
     private String operation;
 
-    public Response(String operation, double result) {
+    public Response(@JsonProperty String operation,
+                    @JsonProperty double result) {
         this.operation = operation;
         this.result = result;
     }

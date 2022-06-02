@@ -20,7 +20,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 
-@Component
 public class Listener {
 
     private Map<Controller, List<Method>> methods = new HashMap<>();
@@ -28,7 +27,6 @@ public class Listener {
     private AbstractLogger logger;
     private BinanceAdapter binanceAdapter;
 
-    @Autowired
     public Listener(Controller[] controllers, AbstractLogger logger, BinanceAdapter binanceAdapter) {
         this.controllers = controllers;
         this.logger = logger;

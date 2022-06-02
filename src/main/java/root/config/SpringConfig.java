@@ -4,6 +4,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import root.loggers.AbstractLogger;
+import root.loggers.LoggerToDB;
+import root.main.Connections;
+import root.storage.StorageMongoImpl;
 
 import javax.sql.DataSource;
 

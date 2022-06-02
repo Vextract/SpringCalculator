@@ -2,15 +2,18 @@ package root.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.*;
 import root.customExceptions.NotEnoughArgumentsException;
 import root.customExceptions.UnsupportedOperationExceptionCustom;
 import root.loggers.AbstractLogger;
 import root.loggers.LogEntry;
+import root.main.CalculationPackage;
 import root.main.Response;
 import root.model.Model;
 import root.view.View;
 
-@Component
+@RequestMapping("calculation_api")
+@RestController
 public class SpringController implements Controller {
 
     private Model model;
@@ -24,13 +27,15 @@ public class SpringController implements Controller {
         this.logger = logger;
     }
 
-    public Response processIncomingInformation(String[] args) {
+    @RequestMapping("/process")
+    @GetMapping
+    public Response processIncomingInformation(@RequestBody CalculationPackage calculationPackage) {
 
-        double number1;
-        double number2;
-        String operation;
+        double number1 = calculationPackage.getA();
+        double number2 = calculationPackage.getB();
+        String operation = calculationPackage.getSign();
 
-        try {
+        /*try {
             number1 = Double.parseDouble(args[0]);
             number2 = Double.parseDouble(args[1]);
             operation = args[2];
@@ -46,7 +51,7 @@ public class SpringController implements Controller {
             } finally {
                 logger.error(new LogEntry(new NotEnoughArgumentsException()));
             }
-        }
+        }*/
 
         Response response;
 
@@ -56,10 +61,10 @@ public class SpringController implements Controller {
             response = new Response(operationString, answer);
         } catch (UnsupportedOperationException e) {
             try {
-                response = new Response(new UnsupportedOperationExceptionCustom(args[2]));
+                response = new Response(new UnsupportedOperationExceptionCustom(operation));
                 return response;
             } finally {
-                logger.error(new LogEntry(new UnsupportedOperationExceptionCustom(args[2])));
+                logger.error(new LogEntry(new UnsupportedOperationExceptionCustom(operation)));
             }
         }
         try {
