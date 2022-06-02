@@ -35,24 +35,6 @@ public class SpringController implements Controller {
         double number2 = calculationPackage.getB();
         String operation = calculationPackage.getSign();
 
-        /*try {
-            number1 = Double.parseDouble(args[0]);
-            number2 = Double.parseDouble(args[1]);
-            operation = args[2];
-        } catch (NumberFormatException e) {
-            try {
-                return new Response(e);
-            } finally {
-                logger.error(new LogEntry(e));
-            }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            try {
-                return new Response(new NotEnoughArgumentsException());
-            } finally {
-                logger.error(new LogEntry(new NotEnoughArgumentsException()));
-            }
-        }*/
-
         Response response;
 
         try {
