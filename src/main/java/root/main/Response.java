@@ -10,8 +10,7 @@ public class Response {
 
     private String operation;
 
-    public Response(@JsonProperty String operation,
-                    @JsonProperty double result) {
+    public Response(String operation, double result) {
         this.operation = operation;
         this.result = result;
     }

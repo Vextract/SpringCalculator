@@ -6,13 +6,17 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@RequestMapping("binance_api")
+@RestController
 public class BinanceAdapter implements ExchangeInfo {
 
     private BinanceConnector connector;
@@ -24,8 +28,10 @@ public class BinanceAdapter implements ExchangeInfo {
         this.connector = connector;
     }
 
+    @RequestMapping("/conversion/filter")
+    @GetMapping
     @Override
-    public CurrenciesRate getRate(String filter) {
+    public CurrenciesRate getRate(@RequestParam("pair") String filter) {
         JSONObject jsonObject;
         try {
             jsonObject = (JSONObject) parser.parse(connector.getResponse(filter));
@@ -46,6 +52,8 @@ public class BinanceAdapter implements ExchangeInfo {
         return javaObject;
     }
 
+    @RequestMapping("/conversion/all")
+    @GetMapping
     @Override
     public List<CurrenciesRate> getAllConversionPairs() {
         List<CurrenciesRate> list = new ArrayList<>();

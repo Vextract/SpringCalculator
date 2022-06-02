@@ -69,7 +69,7 @@ public class Listener {
                     }
                 }
 
-                if (str.equalsIgnoreCase("log")) {
+                /*if (str.equalsIgnoreCase("log")) {
                     System.out.println("Введите название репозитория");
                     String str2 = reader.readLine();
                     for (Controller controller: controllers) {
@@ -95,7 +95,7 @@ public class Listener {
                         }
                     }
                     continue;
-                }
+                }*/
 
                 if (str.equalsIgnoreCase("end")) {
                     break;

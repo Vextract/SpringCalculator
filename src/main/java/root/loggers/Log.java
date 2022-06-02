@@ -10,11 +10,54 @@ public class Log {
     private String shortMessage;
     private String stacktrace;
 
+    public Log() {
+    }
+
     public Log(Date date, String capturedBy, String level, String shortMessage, String stacktrace) {
         this.date = date;
         this.capturedBy = capturedBy;
         this.level = level;
         this.shortMessage = shortMessage;
+        this.stacktrace = stacktrace;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String getCapturedBy() {
+        return capturedBy;
+    }
+
+    public void setCapturedBy(String capturedBy) {
+        this.capturedBy = capturedBy;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public String getShortMessage() {
+        return shortMessage;
+    }
+
+    public void setShortMessage(String shortMessage) {
+        this.shortMessage = shortMessage;
+    }
+
+    public String getStacktrace() {
+        return stacktrace;
+    }
+
+    public void setStacktrace(String stacktrace) {
         this.stacktrace = stacktrace;
     }
 
