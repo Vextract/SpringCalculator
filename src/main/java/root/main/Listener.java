@@ -69,34 +69,6 @@ public class Listener {
                     }
                 }
 
-                /*if (str.equalsIgnoreCase("log")) {
-                    System.out.println("Введите название репозитория");
-                    String str2 = reader.readLine();
-                    for (Controller controller: controllers) {
-                        if (controller instanceof ControllerImpl2) {
-                            if (str2.equalsIgnoreCase("postgresql")) {
-                                ((ControllerImpl2) controller)
-                                        .printOutLogs(
-                                                new RepositoryMySqlImpl(
-                                                        Connections.getSQLConnection("postgresql")));
-                            } else if (str2.equalsIgnoreCase("mysql")) {
-                                ((ControllerImpl2) controller)
-                                        .printOutLogs(
-                                                new RepositoryMySqlImpl(
-                                                        Connections.getSQLConnection("mysql")));
-                            } else if (str2.equalsIgnoreCase("mongo")) {
-                                ((ControllerImpl2) controller)
-                                        .printOutLogs(
-                                                new RepositoryMongoImpl(
-                                                        Connections.MONGO_DATABASE));
-                            } else {
-                                System.out.println("Такой репозиторий отсутствует");
-                            }
-                        }
-                    }
-                    continue;
-                }*/
-
                 if (str.equalsIgnoreCase("end")) {
                     break;
                 }

@@ -17,7 +17,7 @@ public class RepositoryMongoImpl implements Repository {
 
 
     @Override
-    public LogResponse getErrorsLog() {
+    public List<Log> getErrorsLog() {
         DBCollection collection = database.getCollection("Errors");
         List<Log> logs = new ArrayList<>();
         try (DBCursor results = collection.find()) {
@@ -33,26 +33,22 @@ public class RepositoryMongoImpl implements Repository {
                 logs.add(log);
             }
         }
-        return new LogResponse("Successful", logs);
+        return logs;
     }
 
     @Override
-    public LogResponse getErrorsLogByFilter(DateFilter[] dateFilters) {
-        DBCollection collection = database.getCollection("Errors");
-        List<Log> logs = new ArrayList<>();
-        try (DBCursor results = collection.find()) {
-            for (DBObject result: results) {
-                Log log = new Log(
-                        new Date(((java.util.Date) result.get("date")).getTime()),
-                        (String) result.get("loggerName"),
-                        (String) result.get("level"),
-                        (String) result.get("message"),
-                        (String) result.get("cause")
-                );
+    public List<Log> getErrorsLogFromDate(java.util.Date from) {
+        return null;
+    }
 
-                logs.add(log);
-            }
-        }
-        return new LogResponse("Successful", logs);
+
+    @Override
+    public List<Log> getErrorsLogToDate(java.util.Date to) {
+        return null;
+    }
+
+    @Override
+    public List<Log> getErrorsLogByTwoFilters(java.util.Date from, java.util.Date to) {
+        return null;
     }
 }
