@@ -2,6 +2,7 @@ package root.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import root.loggers.LogService;
 import root.repository.DateFilter;
 import root.repository.FiltersValidator;
 import root.repository.LogResponse;
@@ -12,15 +13,13 @@ import root.repository.Repository;
 public class LogsController {
 
     private Repository repository;
-    private FiltersValidator validator;
-
-    public LogsController(Repository repository, FiltersValidator validator) {
-        this.repository = repository;
-        this.validator = validator;
-    }
+    private LogService logService;
 
     @Autowired
-
+    public LogsController(Repository repository, LogService logService) {
+        this.repository = repository;
+        this.logService = logService;
+    }
 
     @RequestMapping("/logs")
     @GetMapping
@@ -31,6 +30,6 @@ public class LogsController {
     @RequestMapping("/filteredLogs")
     @PostMapping
     public LogResponse getErrorsLogByFilter(@RequestBody DateFilter[] dateFilters) {
-        return validator.validateAndGetFromDB(dateFilters);
+        return logService.validateAndGetFromDB(dateFilters);
     }
 }

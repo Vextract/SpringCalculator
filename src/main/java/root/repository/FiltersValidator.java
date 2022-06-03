@@ -9,17 +9,10 @@ import java.util.*;
 @Component
 public class FiltersValidator {
 
-    private Repository repository;
-
-    @Autowired
-    public FiltersValidator(Repository repository) {
-        this.repository = repository;
-    }
-
-    public LogResponse validateAndGetFromDB(DateFilter[] dateFilters) {
+    public ValidationResponse validate(DateFilter[] dateFilters) {
         if (dateFilters.length > 0) {
             if (dateFilters.length > 2) {
-                return new LogResponse("Должно быть не больше двух фильтров.", null);
+                return new ValidationResponse(false,"Должно быть не больше двух фильтров.");
             }
 
             if (dateFilters.length == 2) {
@@ -28,12 +21,12 @@ public class FiltersValidator {
                         dateFilters[0].getFromOrTo().equalsIgnoreCase("to")
                                 && dateFilters[1].getFromOrTo().equalsIgnoreCase("to")
                 ) {
-                    return new LogResponse("Оба фильтра не могут быть from/to", null);
+                    return new ValidationResponse(false,"Оба фильтра не могут быть from/to");
                 }
 
                 if (dateFilters[0].getDate().before(new Date(100, Calendar.JANUARY, 1)) ||
                         dateFilters[1].getDate().before(new Date(100, Calendar.JANUARY, 1))) {
-                    return new LogResponse("Даты фильтров не должны быть раньше 01.01.2000.", null);
+                    return new ValidationResponse(false,"Даты фильтров не должны быть раньше 01.01.2000.");
                 }
 
                 DateFilter from = Arrays.stream(dateFilters)
@@ -52,22 +45,15 @@ public class FiltersValidator {
 
                 // Если неправильно прописана последовательность дат - пустой список.
                 if (from.getDate().after(to.getDate())) {
-                    return new LogResponse("From позднее даты To или наоборот.", null);
+                    return new ValidationResponse(false,"From позднее даты To или наоборот.");
                 }
-
-                return new LogResponse("Successful", repository.getErrorsLogByTwoFilters(from.getDate(), to.getDate()));
             } else {
                 if (dateFilters[0].getDate().before(new Date(100, Calendar.JANUARY, 1))) {
-                    return new LogResponse("Даты фильтров не должны быть раньше 01.01.2000.", null);
-                }
-
-                if (dateFilters[0].getFromOrTo().equalsIgnoreCase("from")) {
-                    return new LogResponse("Successful", repository.getErrorsLogFromDate(dateFilters[0].getDate()));
-                } else {
-                    return new LogResponse("Successful", repository.getErrorsLogToDate(dateFilters[0].getDate()));
+                    return new ValidationResponse(false,"Даты фильтров не должны быть раньше 01.01.2000.");
                 }
             }
+            return new ValidationResponse(true,null);
         }
-        return new LogResponse("Должен быть передан как минимум один фильтр.", null);
+        return new ValidationResponse(false,"Должен быть передан как минимум один фильтр.");
     }
 }
