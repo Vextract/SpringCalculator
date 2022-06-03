@@ -2,9 +2,10 @@ package root.loggers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import root.customExceptions.FilterValidityException;
 import root.repository.*;
 
-import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class LogService {
@@ -22,26 +23,29 @@ public class LogService {
         this.repository = repository;
     }
 
-    public LogResponse validateAndGetFromDB(DateFilter[] dateFilters) {
+    public List<Log> validateAndGetFromDB(DateFilter[] dateFilters) throws FilterValidityException {
+        // Если фильтров нет.
+        if (dateFilters == null) {
+            return repository.getErrorsLog();
+        }
+
         ValidationResponse resp = validator.validate(dateFilters);
-        // Если ответ невалидный - отправляем пустой список с сообщением.
+        // Если ответ невалидный - бросаем исключение с сообщением.
         if (!resp.isValid()) {
-            return new LogResponse(resp.getMessage(), null);
+            throw new FilterValidityException(resp.getMessage());
         } else {
-            // Определяем количество фильтров
+            // Определяем количество фильтров/последовательность
             if (dateFilters.length == 2) {
                 if (dateFilters[0].getFromOrTo().equalsIgnoreCase("from")) {
-                    return new LogResponse("Successful",
-                            repository.getErrorsLogByTwoFilters(dateFilters[0].getDate(), dateFilters[1].getDate()));
+                    return repository.getErrorsLogByTwoFilters(dateFilters[0].getDate(), dateFilters[1].getDate());
                 } else {
-                    return new LogResponse("Successful",
-                            repository.getErrorsLogByTwoFilters(dateFilters[1].getDate(), dateFilters[0].getDate()));
+                    return repository.getErrorsLogByTwoFilters(dateFilters[1].getDate(), dateFilters[0].getDate());
                 }
             } else {
                 if (dateFilters[0].getFromOrTo().equalsIgnoreCase("from")) {
-                    return new LogResponse("Successful", repository.getErrorsLogFromDate(dateFilters[0].getDate()));
+                    return repository.getErrorsLogFromDate(dateFilters[0].getDate());
                 } else {
-                    return new LogResponse("Successful", repository.getErrorsLogToDate(dateFilters[0].getDate()));
+                    return repository.getErrorsLogToDate(dateFilters[0].getDate());
                 }
             }
         }
